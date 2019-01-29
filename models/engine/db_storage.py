@@ -51,8 +51,9 @@ class DBStorage:
         """
         d = {}
         if cls:
-            for obj in self.__session.query(cls):
-                d["{}.{}".format(cls.__name__, obj.id)] = obj
+            for obj in self.__session.query(self.__clsdict.get(cls)):
+                d["{}.{}".format(self.__clsdict.get(cls).__name__,
+                                 obj.id)] = obj
             return (d)
         for k, cls in self.__clsdict.items():
             for obj in self.__session.query(cls):
@@ -86,3 +87,8 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         factory = sessionmaker(bind=self.__engine, expire_on_commit=True)
         self.__session = scoped_session(factory)()
+
+    def close(self):
+        """Closes session
+        """
+        self.__session.close()
