@@ -9,15 +9,18 @@ def hello_HBNB():
     """/ route response"""
     return 'Hello HBNB!'
 
+
 @app.route('/hbnb', strict_slashes=False)
 def HBNB():
     """/hbnb response"""
     return 'HBNB'
 
+
 @app.route('/c/<text>', strict_slashes=False)
 def c(text=None):
     """/c/ response"""
     return 'C {}'.format(text).replace('_', ' ')
+
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
