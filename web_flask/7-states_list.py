@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Simple Flask web app"""
 from flask import Flask
-from flask import abort
 from flask import render_template
 from models import storage
 app = Flask(__name__)
@@ -16,7 +15,7 @@ def teardown_appcontext(Exception):
 @app.route('/states_list', strict_slashes=False)
 def states_list():
     """/states_list response"""
-    states_list = sorted(storage.all("State").items())
+    states_list = list(storage.all("State").values())
     return render_template('7-states_list.html', states_list=states_list)
 
 if __name__ == "__main__":
