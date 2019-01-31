@@ -6,17 +6,15 @@
     <BODY>
         <H1>States</H1>
         <UL>
-	  {%- for state in states_list %}
-	    <LI>{{ state[1].id }}: <B>{{ state[1].name }}</B></LI>
+	  {% for state in states_list|sort(attribute='name') %}
+	    <LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
 	        <UL>
-	          {%- for state_city in cities_list %}
-		    {%- if state_city[0] == state[1].id %}
-		    <LI>{{ state_city[0] }}: <B>{{ state_city[1] }}</B></LI>
-		    {%- endif %}
-		  {%- endfor %}
+	          {% for city in state.cities|sort(attribute='name') %}
+		    <LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
+		  {% endfor %}
 		</UL>
 	    </LI>
-          {%- endfor %}
+          {% endfor %}
         </UL>
     </BODY>
 </HTML>

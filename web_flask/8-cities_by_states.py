@@ -18,7 +18,7 @@ def teardown_appcontext(Exception):
 @app.route('/states_list', strict_slashes=False)
 def states_list():
     """/states_list response"""
-    states_list = sorted(storage.all("State").items())
+    states_list = list(storage.all("State").values())
     return render_template('7-states_list.html', states_list=states_list)
 
 
@@ -27,17 +27,11 @@ def cities_by_states():
     """/cities_by_state response"""
     if environ.get('HBNB_TYPE_STORAGE') == 'db':
         """db get state to cities relationship"""
-        states_list = sorted(storage.all("State").items())
+        states_list = list(storage.all("State").values())
     else:
         """fs getter from cities"""
-        states_list = sorted(storage.all(State).items())
-    cities_list = []
-    for state_id, state in states_list:
-        for city in state.cities:
-            cities_list.append([state.id, city.name])
-    cities_list = sorted(cities_list, key=itemgetter(1))
-    return render_template('8-cities_by_states.html', states_list=states_list,
-                           cities_list=cities_list)
+        states_list = list(storage.all(State).values())
+    return render_template('8-cities_by_states.html', states_list=states_list)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int("5000"))
